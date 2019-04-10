@@ -1,0 +1,15 @@
+GatewayWorker使用经典的Gateway和Worker进程模型。
+
+Gateway：维持客户端连接，转发数据---》BusinessWorker，
+BusinessWorker：负责处理实际的业务逻辑（默认调用Events.php处理业务），并将结果推送给对应的客户端。
+
+Gateway服务和BusinessWorker 可以分开部署在不同的服务器上，实现分布式集群。
+
+
+GatewayWorker 与 Workerman的关系：
+
+Workerman：纯粹的socket类库
+GatewayWorker框架： Gateway Worker进程模型，
+				天然支持分布式多服务器部署，扩容方便，海量并发。
+				基于Workerman实现TCP长连接的项目框架。
+GatewayWorker不支持UDP监听，所以UDP服务请选择Workerman				
