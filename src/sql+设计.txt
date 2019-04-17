@@ -1,49 +1,36 @@
 
 	1. Group by 和having 搭配筛选
 	2. Like匹配 有统配百分号和小下划线 ，前者表示任意长度字符包含0，后者表示任意单个字符
-	3. Between and 包含左右边界
-	4转码字符声明 ESCAPE 
+	3.   Between and 包含左右边界
+	4. 转码字符声明 ESCAPE 
 	5. 聚集函数count等只能用于select 子句和group by 的having子句
 	6. 实体完整性。 原子性，不可切割
-	7.参照完整性 外键
-	8.用户定义完整性。语义约束，例如性别分男女等
-	9.断言。条件约束
-	10.触发器。灵活的约束加操作，无法定义在视图上，分before 和after触发，分行级触发器和语句级触发器，前者是受影响的行数，后者是单次语句。 比较深
-	11.数据依赖。 函数依赖和多值依赖
-	12.关系规范化程度。 
-	13.完全函数依赖。部分函数依赖。传递函数依赖
-	14.主码。 超码。 外码。 超码
-	15.第一范式（1NF）：强调的是列的原子
-			* 
-		第二范式（2NF）：必须有一个主键；非主键必须完全依赖于主键，而不能只依赖于主键的一部分。 例如订单明细表：【OrderDetail】（OrderID，ProductID，UnitPrice，Discount，Quantity，ProductName）。
-			* 
-		因为我们知道在一个订单中可以订购多种产品，所以单单一个 OrderID 是不足以成为主键的，主键应该是（OrderID，ProductID）。显而易见 Discount（折扣），Quantity（数量）完全依赖（取决）于主键（OderID，ProductID），而 UnitPrice，ProductName 只依赖于 ProductID。所以 OrderDetail 表不符合 2NF。不符合 2NF 的设计容易产生冗余数据。
-			* 
-		可以把【OrderDetail】表拆分为【OrderDetail】（OrderID，ProductID，Discount，Quantity）和【Product】（ProductID，UnitPrice，ProductName）来消除原订单表中UnitPrice，ProductName多次重复的情况。
-			* 
-		第三范式（3NF）：非主键列必须直接依赖于主键，不能存在传递依赖。即不能存在：非主键列 A 依赖于非主键列 B，非主键列 B 依赖于主键的情况。
-			* 
-		考虑一个订单表【Order】（OrderID，OrderDate，CustomerID，CustomerName，CustomerAddr，CustomerCity）主键是（OrderID）。
-			* 
-		其中 OrderDate，CustomerID，CustomerName，CustomerAddr，CustomerCity 等非主键列都完全依赖于主键（OrderID），所以符合 2NF。不过问题是 CustomerName，CustomerAddr，CustomerCity 直接依赖的是 CustomerID（非主键列），而不是直接依赖于主键，它是通过传递才依赖于主键，所以不符合 3NF。
-			* 
-		通过拆分【Order】为【Order】（OrderID，OrderDate，CustomerID）和【Customer】（CustomerID，CustomerName，CustomerAddr，CustomerCity）从而达到 3NF。
-			* 
-		第二范式（2NF）和第三范式（3NF）的概念很容易混淆，区分它们的关键点在于，2NF：非主键列是否完全依赖于主键，还是依赖于主键的一部分；3NF：非主键列是直接依赖于主键，还是直接依赖于非主键列。
-			* 
-		BC范式（BCNF）：符合3NF，并且，主属性不依赖于主属性
-			* 
-		若关系模式属于第一范式，且每个属性都不传递依赖于键码，则R属于BC范式。
-			* 
-		BC范式既检查非主属性，又检查主属性。当只检查非主属性时，就成了第三范式。满足BC范式的关系都必然满足第三范式。
-			* 
-		还可以这么说：若一个关系达到了第三范式，并且它只有一个候选码，或者它的每个候选码都是单属性，则该关系自然达到BC范式。
-			* 
-		一般，一个数据库设计符合3NF或BCNF就可以了。在BC范式以上还有第四范式、第五范式。
-			* 
-		第四范式：要求把同一表内的多对多关系删除。
-			* 
-		第五范式：从最终结构重新建立原始结构
+	7. 参照完整性 外键
+	8. 用户定义完整性。语义约束，例如性别分男女等
+	9. 断言。条件约束
+	10. 触发器。灵活的约束加操作，无法定义在视图上，分before 和after触发，分行级触发器和语句级触发器，前者是受影响的行数，后者是单次语句。 比较深
+	11. 数据依赖。 函数依赖和多值依赖
+	12. 关系规范化程度。 
+	13. 完全函数依赖。部分函数依赖。传递函数依赖
+	14. 主码。 超码。 外码。 超码
+	15. 第一范式（1NF）：强调的是列的原子
+
+
+	* 第二范式（2NF）：必须有一个主键；非主键必须完全依赖于主键，而不能只依赖于主键的一部分。 例如订单明细表：【OrderDetail】（OrderID，ProductID，UnitPrice，Discount，Quantity，ProductName）。
+	* 因为我们知道在一个订单中可以订购多种产品，所以单单一个 OrderID 是不足以成为主键的，主键应该是（OrderID，ProductID）。显而易见 Discount（折扣），Quantity（数量）完全依赖（取决）于主键（OderID，ProductID），而 UnitPrice，ProductName 只依赖于 ProductID。所以 OrderDetail 表不符合 2NF。不符合 2NF 的设计容易产生冗余数据。
+	* 可以把【OrderDetail】表拆分为【OrderDetail】（OrderID，ProductID，Discount，Quantity）和【Product】（ProductID，UnitPrice，ProductName）来消除原订单表中UnitPrice，ProductName多次重复的情况。
+	* 第三范式（3NF）：非主键列必须直接依赖于主键，不能存在传递依赖。即不能存在：非主键列 A 依赖于非主键列 B，非主键列 B 依赖于主键的情况。
+	* 考虑一个订单表【Order】（OrderID，OrderDate，CustomerID，CustomerName，CustomerAddr，CustomerCity）主键是（OrderID）。
+	* 其中 OrderDate，CustomerID，CustomerName，CustomerAddr，CustomerCity 等非主键列都完全依赖于主键（OrderID），所以符合 2NF。不过问题是 CustomerName，CustomerAddr，CustomerCity 直接依赖的是 CustomerID（非主键列），而不是直接依赖于主键，它是通过传递才依赖于主键，所以不符合 3NF。
+	* 通过拆分【Order】为【Order】（OrderID，OrderDate，CustomerID）和【Customer】（CustomerID，CustomerName，CustomerAddr，CustomerCity）从而达到 3NF。
+	* 第二范式（2NF）和第三范式（3NF）的概念很容易混淆，区分它们的关键点在于，2NF：非主键列是否完全依赖于主键，还是依赖于主键的一部分；3NF：非主键列是直接依赖于主键，还是直接依赖于非主键列。
+	* BC范式（BCNF）：符合3NF，并且，主属性不依赖于主属性
+	* 若关系模式属于第一范式，且每个属性都不传递依赖于键码，则R属于BC范式。
+	* BC范式既检查非主属性，又检查主属性。当只检查非主属性时，就成了第三范式。满足BC范式的关系都必然满足第三范式。
+	* 还可以这么说：若一个关系达到了第三范式，并且它只有一个候选码，或者它的每个候选码都是单属性，则该关系自然达到BC范式。
+	* 一般，一个数据库设计符合3NF或BCNF就可以了。在BC范式以上还有第四范式、第五范式。
+	* 第四范式：要求把同一表内的多对多关系删除。
+	* 第五范式：从最终结构重新建立原始结构
 
 完备性约束。
  完全特化，指子类实体全包含父类所有特化的情况，部分特化相反
